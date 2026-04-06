@@ -1,0 +1,4 @@
+GET https://phonebook-oo7r.onrender.com/info
+
+###
+GET https://phonebook-oo7r.onrender.com/api/tenispersons
