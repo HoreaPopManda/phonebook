@@ -1,7 +1,10 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express()
+app.use(cors())
+
 
 morgan.token('newPerson', function getNewPerson (req) {
   return req.body ? JSON.stringify(req.body) : ''
@@ -123,6 +126,10 @@ app.get('/api/persons/:id', (request, response) => {
     }
 })
 
+app.get('/info', (request, response) => {
+  response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${new Date()}</p>`)
+})
+
 app.delete('/api/persons/:id', (request, response) => {
     const id = request.params.id;
     persons = persons.filter(person => person.id !== id);
@@ -130,12 +137,20 @@ app.delete('/api/persons/:id', (request, response) => {
 });
 
 
-app.get('/info', (request, response) => {
-  response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${new Date()}</p>`)
-})
+// update a person's number (and it's name)
+app.put('/api/persons/:id', (request, response) => {
+    const id = request.params.id;
+    const body = request.body;
 
+    persons = persons.map(person =>
+        person.id === id ? { ...person, number: body.number } : person
+    );
 
-const PORT = 3001
+    response.json(persons.find(person => person.id === id));
+});
+
+const PORT = process.env.PORT || 3001
+
 app.listen(PORT, () => {
   console.log(`Phonebook server running on port ${PORT}`)
 })
