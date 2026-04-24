@@ -1,8 +1,7 @@
-PUT  http://localhost:3001/api/persons/Mwym72n0n6M
+PUT  http://localhost:3001/api/persons/69e76a2bde5955bf1990ba6b
 Content-Type: application/json
 
 {
-    "name": "John Henry",
-    "number": "09-02-77",
-    "id": "Mwym72n0n6M"
+    "name": "Fred J Afusso",
+    "number": "11-77-88"
 }
