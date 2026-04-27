@@ -29,7 +29,7 @@ const getRandomInt = (max) => {
 
 
 //////// create a new person (update number if exists) - working
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
 
   if (!request.body.name) {
     return response.status(400).json({ 
@@ -52,6 +52,7 @@ app.post('/api/persons', (request, response) => {
       return existingPerson.save().then(savedPerson => {
         response.status(201).json(savedPerson)
       })
+      .catch(error => next(error))
     }
     else {
         console.log(`Creating new person with name ${request.body.name}`)
@@ -64,6 +65,7 @@ app.post('/api/persons', (request, response) => {
         newPerson.save().then(savedPerson => {
           response.json(savedPerson)
         })
+        .catch(error => next(error))
     }
   })
 })
@@ -139,6 +141,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted phonebook id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   } 
 
   next(error)
