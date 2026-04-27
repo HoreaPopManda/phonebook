@@ -1,4 +1,4 @@
-const persons = require('./index.js');
+const persons = require('./index.js')
 const mongoose = require('mongoose')
 
 if (process.argv.length < 3) {
@@ -23,20 +23,20 @@ const Person = mongoose.model('Person', personSchema)
 
 
 async function savePersons() {
-    for (const p of persons) {
-        console.log(`Adding person: ${p.name}`);
-        const onePerson = new Person(p);
-        
-        // Wait for this save to finish before moving to the next item
-        await onePerson.save();
-        console.log('person saved!');
-    }
+  for (const p of persons) {
+    console.log(`Adding person: ${p.name}`)
+    const onePerson = new Person(p)
 
-    // Now that the loop is completely finished, close the connection
-    mongoose.connection.close();
-    console.log('All persons saved and connection closed.');
+    // Wait for this save to finish before moving to the next item
+    await onePerson.save()
+    console.log('person saved!')
+  }
+
+  // Now that the loop is completely finished, close the connection
+  mongoose.connection.close()
+  console.log('All persons saved and connection closed.')
 }
 
-savePersons();
+savePersons()
 
 

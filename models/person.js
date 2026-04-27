@@ -8,7 +8,7 @@ const url = process.env.MONGODB_URI
 console.log('connecting to', url)
 mongoose.connect(url, { family: 4 })
 
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch(error => {
@@ -27,14 +27,14 @@ const personSchema = new mongoose.Schema({
     validate: {
       validator: function(v) {
         // 1. Check if total length is 8 or more
-        if (v.length < 8) return false;
+        if (v.length < 8) return false
 
-        // 2. Regex check: 
+        // 2. Regex check:
         // ^\d{2,3}  -> Starts with 2 or 3 digits
         // -         -> Contains one hyphen
         // \d+$      -> Ends with digits
-        const regex = /^\d{2,3}-\d+$/;
-        return regex.test(v);
+        const regex = /^\d{2,3}-\d+$/
+        return regex.test(v)
       },
       message: props => `${props.value} is not a valid phone number. It must be at least 8 characters, formatted as "XX-..." or "XXX-..."`
     }
